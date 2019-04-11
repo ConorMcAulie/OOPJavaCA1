@@ -64,7 +64,7 @@ public class FileAccess
 	
 	public void resetData()
 	{
-		File trainingData = new File("TrainingData");
+		File trainingData = new File("TrainingData.csv");
 		dataSet = trainingData;
 	}
 }

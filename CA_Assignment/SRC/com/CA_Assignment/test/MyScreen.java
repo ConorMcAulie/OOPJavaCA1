@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 @SuppressWarnings("unused")
 public class MyScreen extends JFrame implements ActionListener
@@ -29,6 +30,7 @@ public class MyScreen extends JFrame implements ActionListener
 	
 	private JButton buttonCheckP;
 	private JButton buttonResetP;
+	private JButton buttonFileChooserP;
 	private JLabel labelTitle;
 	private JLabel labelTrait1;
 	private JLabel labelTrait2;
@@ -36,7 +38,6 @@ public class MyScreen extends JFrame implements ActionListener
 	private JComboBox<String> trait1 = new JComboBox<String>();
 	private JComboBox<String> trait2 = new JComboBox<String>();
 	private JComboBox<String> trait3 = new JComboBox<String>();
-	private JTextArea textAreaShow;
 	private JFileChooser fileAdd;
 	
 	public MyScreen() 
@@ -45,7 +46,7 @@ public class MyScreen extends JFrame implements ActionListener
 		setLayout(new BorderLayout());
 		
 		JPanel PanelT = new JPanel();
-		JPanel PanelM = new JPanel(new GridLayout(2,3,1,1));
+		JPanel PanelM = new JPanel(new GridLayout(3,2,1,1));
 		JPanel PanelB = new JPanel();
 		
 		add(PanelT, BorderLayout.NORTH);
@@ -56,8 +57,6 @@ public class MyScreen extends JFrame implements ActionListener
 		setSize(1200,800);
 		
 		labelTitle = new JLabel("Naive Bayes Probability of Tonsillitis");
-		textAreaShow = new JTextArea("");
-		textAreaShow.setPreferredSize(new Dimension(300,200));
 		labelTrait1 = new JLabel(" Temperature : ");
 		labelTrait2 = new JLabel(" Aches : ");
 		labelTrait3 = new JLabel(" Sore Throat : ");
@@ -68,10 +67,10 @@ public class MyScreen extends JFrame implements ActionListener
 		
 		buttonCheckP = new JButton("Submit Symptoms");
 		buttonResetP = new JButton("Reset Data Training Set");
+		buttonFileChooserP = new JButton("Add file of patients");
 		
 		PanelT.add(labelTitle);
-		PanelT.setPreferredSize(new Dimension(300,100));
-
+		
 		PanelM.add(labelTrait1);
 		PanelM.add(trait1);
 		PanelM.add(labelTrait2);
@@ -79,48 +78,47 @@ public class MyScreen extends JFrame implements ActionListener
 		PanelM.add(labelTrait3);
 		PanelM.add(trait3);
 		
-		PanelM.add(buttonCheckP);
-		PanelM.add(buttonResetP);
-		
-		PanelB.add(textAreaShow);
-		PanelB.setPreferredSize(new Dimension(300,300));
+		PanelB.add(buttonCheckP);
+		PanelB.add(buttonResetP);
+		PanelB.add(buttonFileChooserP);
 
 		fileAdd = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", ".csv");
-	    fileAdd.setFileFilter(filter);
-	    int returnVal = fileAdd.showOpenDialog(null);
-	    if(returnVal == JFileChooser.APPROVE_OPTION) 
-	    {
-	    	System.out.println("You chose to add this file to data set : " + fileAdd.getSelectedFile().getName());
-	    }
-	    /*
-	    
-	     */
+		
 
 		buttonCheckP.addActionListener(this);
 		buttonResetP.addActionListener(this);
+		buttonFileChooserP.addActionListener(this);
 		
 		setVisible(true);
 	}
 	
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent arg0) 
+	{
 		if(arg0.getSource() == buttonCheckP) 
 		{
+			
 			JOptionPane.showMessageDialog(this, "Don't know yet");
 		}
-		else if(arg0.getSource() == buttonResetP)
+		else if(arg0.getSource() == buttonFileChooserP)
 		{
-			labelText = " Array List with all people elements \n";
-			labelText = labelText + "\n";
-			labelText = labelText + "\n";
-			labelText = "";
-			textAreaShow.setText(labelText);
+            JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); 
+            int r = j.showOpenDialog(null); 
+
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files", ".csv");
+            fileAdd.setFileFilter(filter);
+            
+            if (r == JFileChooser.APPROVE_OPTION) 
+            { 
+            	System.out.println(j.getSelectedFile().getAbsolutePath()); 
+            } 
+            else 
+            {
+            	System.out.println("the user cancelled the operation"); 
+            }
 		}
 		else if(arg0.getSource() == buttonResetP)
 		{
 			result = JOptionPane.showConfirmDialog(this, "Do you wish to delete array list?","Delete Dialog", 1);
-			labelText = "";
-			textAreaShow.setText(labelText);
 		}
 	}
 }
