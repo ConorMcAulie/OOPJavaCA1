@@ -6,16 +6,22 @@ import java.util.ArrayList;
 @SuppressWarnings("unused")
 public class NaiveBayes 
 {
-	
+	private int i;
 	private String[] yesAndOption;
 	private String[] noAndOption;
-	private ArrayList<Patient> patTemp = new ArrayList<Patient>();
+	private Patient patTemp;
+	private ArrayList<Patient> patList = new ArrayList<Patient>();
 	
-	public NaiveBayes(String dataSet)
+	public NaiveBayes()
 	{
-		FileAccess dataSetAcc = new FileAccess(dataSet);
+		FileAccess dataSetAcc = new FileAccess();
 		String[] fileArr = dataSetAcc.readfile();
-		for(i=0;i<)
-		patTemp.add(fileArr[i]);
+		
+		for(i=0;i<dataSetAcc.getFileSize();i++) 
+		{
+			patTemp.setTraits(fileArr[i].split(","));
+			patList.add(patTemp);
+			System.out.println(patTemp);
+		}
 	}
 }

@@ -36,7 +36,7 @@ public class FileAccess
 		{
 			System.out.println("run time error " + e.getMessage());
 			String[] empty = new String[1];
-  			return empty, 0;
+  			return empty;
 		}
 		String[] readFile = new String[(int) dataSet.length()];
 		fileSize = 0;
@@ -46,6 +46,17 @@ public class FileAccess
 			fileSize++;
 		}
 		return readFile;
+	}
+	public int getFileSize() 
+	{
+		if(fileSize!=0)
+		{
+			return fileSize;
+		}
+		else 
+		{
+			return 0;
+		}
 	}
 	
 	public void addPatientToData(Patient patTemp) 

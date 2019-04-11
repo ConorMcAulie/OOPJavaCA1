@@ -12,6 +12,6 @@ public class Control
 	public static void main(String[] args) 
 	{
 		System.out.println("helloworld");
-		FileAccess test = new FileAccess();
+		NaiveBayes test = new NaiveBayes();
 	}
 }
