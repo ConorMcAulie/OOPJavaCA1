@@ -9,11 +9,16 @@ import java.util.Scanner;
 public class FileAccess 
 {
 	int fileSize;
-	String name;
+	String name = "TrainingData.csv";
 	File dataSet;
 	Scanner dataSetScanner;
 	PrintWriter fileApend;
 	ArrayList<String[]> dataSetArr = new ArrayList<String[]>();
+	
+	FileAccess()
+	{
+		dataSet = new File(name);
+	}
 	
 	FileAccess(String name)
 	{

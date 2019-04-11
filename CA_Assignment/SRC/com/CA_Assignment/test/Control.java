@@ -12,7 +12,6 @@ public class Control
 	public static void main(String[] args) 
 	{
 		System.out.println("helloworld");
-		
-		Patient p1 = new Patient();
+		FileAccess test = new FileAccess();
 	}
 }
