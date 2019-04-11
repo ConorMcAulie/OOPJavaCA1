@@ -36,9 +36,15 @@ public class FileAccess
 		{
 			System.out.println("run time error " + e.getMessage());
 			String[] empty = new String[1];
-  			return empty;
+  			return empty, 0;
 		}
 		String[] readFile = new String[(int) dataSet.length()];
+		fileSize = 0;
+		while(dataSetScanner.hasNextLine())
+		{
+			readFile[fileSize] = dataSetScanner.nextLine();
+			fileSize++;
+		}
 		return readFile;
 	}
 	

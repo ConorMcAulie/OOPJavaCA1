@@ -83,7 +83,6 @@ public class MyScreen extends JFrame implements ActionListener
 		PanelB.add(buttonFileChooserP);
 
 		fileAdd = new JFileChooser();
-		
 
 		buttonCheckP.addActionListener(this);
 		buttonResetP.addActionListener(this);

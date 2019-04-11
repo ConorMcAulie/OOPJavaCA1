@@ -6,8 +6,8 @@ public class ControlGUI {
 	public static void main(String[] args) {
 		
 		System.out.println("help");
-		
 		MyScreen Gui1 = new MyScreen();
+		
 	}
 
 }
