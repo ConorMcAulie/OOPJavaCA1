@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,18 +19,18 @@ public class MyScreen extends JFrame implements ActionListener
 	
 	private static final long serialVersionUID = 1L;
 
-	ArrayList<NaiveBayes> personListGUI = new ArrayList<>();
 	String labelText;
 	int result = 0;
 	
-	private JButton buttonSave;
-	private JButton buttonShow;
-	private JButton buttonDelete;
+	private JButton buttonCheckP;
+	private JButton buttonResetP;
 	private JTextField textFirstName;
 	private JTextField textSurName;
 	private JTextField textCity;
 	private JLabel labelTitle;
 	private JTextArea textAreaShow;
+	@SuppressWarnings("unused")
+	private JFileChooser fileAdd;
 	
 	public MyScreen() 
 	{
@@ -62,9 +62,8 @@ public class MyScreen extends JFrame implements ActionListener
 		textCity.setToolTipText("City Here");
 		textCity.setPreferredSize(new Dimension(300,100));
 		
-		buttonSave = new JButton("Save");
-		buttonShow = new JButton("Show all");
-		buttonDelete = new JButton("Delete");
+		buttonCheckP = new JButton("Save");
+		buttonResetP = new JButton("Delete");
 		
 		PanelT.add(labelTitle);
 		PanelT.setPreferredSize(new Dimension(300,100));
@@ -73,54 +72,36 @@ public class MyScreen extends JFrame implements ActionListener
 		PanelM.add(textSurName);
 		PanelM.add(textCity);
 		
-		PanelM.add(buttonSave);
-		PanelM.add(buttonShow);
-		PanelM.add(buttonDelete);
+		PanelM.add(buttonCheckP);
+		PanelM.add(buttonResetP);
 		
 		PanelB.add(textAreaShow);
 		PanelB.setPreferredSize(new Dimension(300,300));
 
-		buttonSave.addActionListener(this);
-		buttonShow.addActionListener(this);
-		buttonDelete.addActionListener(this);
+		buttonCheckP.addActionListener(this);
+		buttonResetP.addActionListener(this);
 		
 		setVisible(true);
 	}
 	
 	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getSource() == buttonSave) 
+		if(arg0.getSource() == buttonCheckP) 
 		{
-			if(personListGUI.size()<20) 
-			{
-				JOptionPane.showMessageDialog(this, "You added ");
-			}
+			JOptionPane.showMessageDialog(this, "You added ");
 		}
-		else if(arg0.getSource() == buttonShow)
+		else if(arg0.getSource() == buttonResetP)
 		{
-			if(personListGUI.size() > 0) 
-			{
-				labelText = " Array List with all people elements \n";
-				for(NaiveBayes element: personListGUI)
-				{
-					labelText = labelText + element + "\n";
-				}
-				labelText = labelText + "\n";
-			}
-			else
-			{
-				labelText = "";
-			}
+			labelText = " Array List with all people elements \n";
+			labelText = labelText + "\n";
+			labelText = labelText + "\n";
+			labelText = "";
 			textAreaShow.setText(labelText);
 		}
-		else if(arg0.getSource() == buttonDelete)
+		else if(arg0.getSource() == buttonResetP)
 		{
 			result = JOptionPane.showConfirmDialog(this, "Do you wish to delete array list?","Delete Dialog", 1);
-			if(result == 0) 
-			{
-				personListGUI.clear();
-				labelText = "";
-				textAreaShow.setText(labelText);
-			}
+			labelText = "";
+			textAreaShow.setText(labelText);
 		}
 	}
 }

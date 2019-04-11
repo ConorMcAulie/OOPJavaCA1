@@ -1,16 +1,19 @@
 package com.CA_Assignment.test;
 
+import java.util.ArrayList;
+
+@SuppressWarnings("unused")
 public class NaiveBayes 
 {
-	private String firstName;
-	private String surName;
-	private String city;
-
-	public NaiveBayes()
+	
+	private String[] yesAndOption;
+	private String[] noAndOption;
+	private Patient patTemp;
+	
+	public NaiveBayes(ArrayList<Patient> dataSet)
 	{
-		this.firstName = firstName.replace("	", "");
-		this.surName = surName.replace("	", "");
-		this.city = city.replace("	", "");
+		patTemp = dataSet.get(0);
+		
+		
 	}
-
 }
