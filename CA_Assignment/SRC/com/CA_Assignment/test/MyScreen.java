@@ -46,12 +46,8 @@ public class MyScreen extends JFrame implements ActionListener
 		setLayout(new BorderLayout());
 		
 		JPanel PanelT = new JPanel();
-		JPanel PanelM = new JPanel(new GridLayout(3,2,1,1));
+		JPanel PanelM = new JPanel();
 		JPanel PanelB = new JPanel();
-		
-		add(PanelT, BorderLayout.NORTH);
-		add(PanelM, BorderLayout.CENTER);
-		add(PanelB, BorderLayout.SOUTH);
 
 		setLocation(100,100);
 		setSize(1200,800);
@@ -70,17 +66,20 @@ public class MyScreen extends JFrame implements ActionListener
 		buttonFileChooserP = new JButton("Add file of patients");
 		
 		PanelT.add(labelTitle);
+		add(PanelT, BorderLayout.NORTH);
 		
-		PanelM.add(labelTrait1);
-		PanelM.add(trait1);
-		PanelM.add(labelTrait2);
-		PanelM.add(trait2);
-		PanelM.add(labelTrait3);
-		PanelM.add(trait3);
+		PanelM.add(labelTrait1, BorderLayout.NORTH);
+		PanelM.add(trait1, BorderLayout.NORTH);
+		PanelM.add(labelTrait2, BorderLayout.CENTER);
+		PanelM.add(trait2, BorderLayout.CENTER);
+		PanelM.add(labelTrait3, BorderLayout.SOUTH);
+		PanelM.add(trait3, BorderLayout.SOUTH);
+		add(PanelM, BorderLayout.CENTER);
 		
 		PanelB.add(buttonCheckP);
 		PanelB.add(buttonResetP);
 		PanelB.add(buttonFileChooserP);
+		add(PanelB, BorderLayout.SOUTH);
 
 		fileAdd = new JFileChooser();
 
