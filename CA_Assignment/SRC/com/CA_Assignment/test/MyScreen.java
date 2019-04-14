@@ -24,8 +24,9 @@ public class MyScreen extends JFrame implements ActionListener
 	private static final long serialVersionUID = 1L;
 
 	int i;
-	String labelText;
 	int result = 0;
+	float reliability=0;
+	String labelText;
 	String[] choices = { "hot", "normal", "cool"};
 	String[] choices2 = { "yes", "no"};
 	NaiveBayes test = new NaiveBayes();
@@ -130,14 +131,19 @@ public class MyScreen extends JFrame implements ActionListener
 		else if(arg0.getSource() == buttonResetP)
 		{
 			result = JOptionPane.showConfirmDialog(this, "Do you wish to delete array list?","Delete Dialog", 1);
-			if(result == 1) 
+			if(result == 0) 
 			{
 				test.dataSetAcc.resetData();
+			}
+			else
+			{
+				System.out.println("the user cancelled the operation"); 
 			}
 		}
 		else if(arg0.getSource() == buttonCheckRel)
 		{
-			
+			reliability = test.CheckRel();
+			JOptionPane.showMessageDialog(this, " Reliability of algorithm = " + reliability + " %");
 		}
 	}
 }

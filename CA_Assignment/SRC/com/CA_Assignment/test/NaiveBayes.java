@@ -18,6 +18,11 @@ public class NaiveBayes
 	
 	public NaiveBayes()
 	{
+		this.setPatList();
+	}
+	
+	public void setPatList() 
+	{
 		FileAccess dataSetAcc = new FileAccess();
 		String[] fileArr = dataSetAcc.readfile();
 		
@@ -98,7 +103,7 @@ public class NaiveBayes
 		float tonYes = totalYesAndNo[0];
 		float tonNo = totalYesAndNo[1];
 		
-		int tonAll = (int) (tonNo + tonYes);
+		float tonAll = (int) (tonNo + tonYes);
 		
 		for(i = 0; i < options.length; i++)
 		{
@@ -106,22 +111,42 @@ public class NaiveBayes
 			totalNo = totalNo * noAndOption[i];
 		}
 		
-		totalYes = ( totalYes * (float)tonYes ) / (float)tonAll;
-		totalNo = ( totalNo * (float)tonNo ) / (float)tonAll;
+		totalYes = ( totalYes * tonYes ) / tonAll;
+		totalNo = ( totalNo * tonNo ) / tonAll;
 		
 		totalYes = totalYes * (float)100 /( totalYes + totalNo );
 		
 		return totalYes;
 	}
 	
-	public void CheckRel(String[] options) 
+	public float CheckRel() 
 	{
-		ArrayList<float[]> transfer = Algorithm(options);
+		int relTop = 0;
+		int relBot = 0;
 		
-		yesAndOption = transfer.get(0);
-		noAndOption = transfer.get(1);
-		float[] totalYesAndNo = transfer.get(2);
-		float tonYes = totalYesAndNo[0];
-		float tonNo = totalYesAndNo[1];
+		this.forCheck = (int) (this.patList.size() * 0.3);
+		this.setPatList();
+		
+		for(i=0;i<forCheck;forCheck--) 
+		{
+			String[] optionsPlus1 = patList.get(this.patList.size()-forCheck);
+			String[] options = new String[(optionsPlus1.length-1)];
+			
+			for(int j=0; j<(optionsPlus1.length-1); j++) 
+			{
+				options[j] = optionsPlus1[j];
+			}
+			float checkIt = getProbOfPat(options);
+			
+			if(((checkIt > 50) && (optionsPlus1[optionsPlus1.length-1] == "yes")) ||
+					((checkIt < 50) && (optionsPlus1[optionsPlus1.length-1] == "no")))
+			{
+				relTop++;
+			}
+			relBot++;
+		}
+		
+		float totalRel = (float)(relTop/relBot);
+		return totalRel;
 	}
 }
