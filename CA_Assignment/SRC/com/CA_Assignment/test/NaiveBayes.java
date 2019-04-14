@@ -24,8 +24,18 @@ public class NaiveBayes
 			System.out.println(patTemp);
 		}
 	}
-	public void getProbOfPat() 
+	public int getProbOfPat(String[] options) 
 	{
-		 
+		int prob = 0;
+		String[] inLoop = patList.get(i);
+		if((options[i] == inLoop[i+1]) && (inLoop[inLoop.length - 1] == "Yes"))
+		{
+			
+		}
+		else
+		{
+			
+		}
+		return prob;
 	}
 }
