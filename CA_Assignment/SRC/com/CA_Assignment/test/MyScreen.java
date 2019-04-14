@@ -23,14 +23,16 @@ public class MyScreen extends JFrame implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 
+	int i;
 	String labelText;
 	int result = 0;
-	String[] choices = { "Hot", "Normal", "Cool"};
-	String[] choices2 = { "Yes", "No"};
+	String[] choices = { "hot", "normal", "cool"};
+	String[] choices2 = { "yes", "no"};
 	
 	private JButton buttonCheckP;
-	private JButton buttonResetP;
 	private JButton buttonFileChooserP;
+	private JButton buttonResetP;
+	private JButton buttonCheckRel;
 	private JLabel labelTitle;
 	private JLabel labelTrait1;
 	private JLabel labelTrait2;
@@ -62,8 +64,9 @@ public class MyScreen extends JFrame implements ActionListener
 		trait3 = new JComboBox<String>(choices2);
 		
 		buttonCheckP = new JButton("Submit Symptoms");
-		buttonResetP = new JButton("Reset Data Training Set");
 		buttonFileChooserP = new JButton("Add file of patients");
+		buttonResetP = new JButton("Reset Data Training Set");
+		buttonCheckRel = new JButton("Check Reliability");
 		
 		PanelT.add(labelTitle);
 		add(PanelT, BorderLayout.NORTH);
@@ -77,8 +80,9 @@ public class MyScreen extends JFrame implements ActionListener
 		add(PanelM, BorderLayout.CENTER);
 		
 		PanelB.add(buttonCheckP);
-		PanelB.add(buttonResetP);
 		PanelB.add(buttonFileChooserP);
+		PanelB.add(buttonResetP);
+		PanelB.add(buttonCheckRel);
 		add(PanelB, BorderLayout.SOUTH);
 
 		fileAdd = new JFileChooser();
@@ -86,6 +90,7 @@ public class MyScreen extends JFrame implements ActionListener
 		buttonCheckP.addActionListener(this);
 		buttonResetP.addActionListener(this);
 		buttonFileChooserP.addActionListener(this);
+		buttonCheckRel.addActionListener(this);
 		
 		setVisible(true);
 	}
@@ -94,8 +99,21 @@ public class MyScreen extends JFrame implements ActionListener
 	{
 		if(arg0.getSource() == buttonCheckP) 
 		{
+			String[] options = new String[3];
+			options[0] = (String) trait1.getSelectedItem();
+			options[1] = (String) trait2.getSelectedItem();
+			options[2] = (String) trait3.getSelectedItem();
 			
-			JOptionPane.showMessageDialog(this, "Don't know yet");
+			NaiveBayes test = new NaiveBayes();
+			String answer[] = test.getProbOfPat(options);
+			
+			String ansOne = "";
+			for(i=0;i<answer.length;i++) 
+			{
+				ansOne = ansOne + " | " + answer[i] + " | ";
+			}
+				
+			JOptionPane.showMessageDialog(this, "Probability = " + ansOne);
 		}
 		else if(arg0.getSource() == buttonFileChooserP)
 		{
@@ -107,7 +125,8 @@ public class MyScreen extends JFrame implements ActionListener
             
             if (r == JFileChooser.APPROVE_OPTION) 
             { 
-            	System.out.println(j.getSelectedFile().getAbsolutePath()); 
+            	System.out.println(j.getSelectedFile().getAbsolutePath());
+            	
             } 
             else 
             {
@@ -117,6 +136,10 @@ public class MyScreen extends JFrame implements ActionListener
 		else if(arg0.getSource() == buttonResetP)
 		{
 			result = JOptionPane.showConfirmDialog(this, "Do you wish to delete array list?","Delete Dialog", 1);
+		}
+		else if(arg0.getSource() == buttonCheckRel)
+		{
+			
 		}
 	}
 }

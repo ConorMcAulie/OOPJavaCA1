@@ -24,18 +24,46 @@ public class NaiveBayes
 			System.out.println(patTemp);
 		}
 	}
-	public int getProbOfPat(String[] options) 
+	public String[] getProbOfPat(String[] options) 
 	{
-		int prob = 0;
-		String[] inLoop = patList.get(i);
-		if((options[i] == inLoop[i+1]) && (inLoop[inLoop.length - 1] == "Yes"))
+		int probYes = 0;
+		int probNo = 0;
+		int tonYes = 0;
+		int tonNo = 0;
+		String[] retString = new String[options.length];
+		
+		for(i = 0; i < options.length; i++)
 		{
+			probYes = 0;
+			probNo = 0;
+			tonYes = 0;
+			tonNo = 0;
 			
+			for(int j = 0; j < patList.size(); j++) 
+			{
+				String[] inLoop = patList.get(j);
+				if(inLoop[inLoop.length - 1].equals("yes"))
+				{
+					if(options[i].equals(inLoop[i+1]))
+					{
+						probYes++;
+					}
+					tonYes++;
+				}
+				else if(inLoop[inLoop.length - 1].equals("no"))
+				{
+					if(options[i].equals(inLoop[i+1]))
+					{
+						probNo++;
+					}
+					tonNo++;
+				}
+				System.out.println(probYes + "/" + tonYes + ","
+				+ probNo + "/" + tonNo);
+			}
+			retString[i] = probYes + "/" + tonYes + ","
+					+ probNo + "/" + tonNo;
 		}
-		else
-		{
-			
-		}
-		return prob;
+		return retString;
 	}
 }
