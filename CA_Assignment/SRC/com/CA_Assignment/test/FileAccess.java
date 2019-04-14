@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class FileAccess 
 {
 	int fileSize;
-	String name = "TrainingData.csv";
+	String name = "CSV_Files\\TrainingData.csv";
 	File dataSet;
 	Scanner dataSetScanner;
 	PrintWriter fileApend;
@@ -34,7 +34,7 @@ public class FileAccess
 		} 
 		catch (FileNotFoundException e) 
 		{
-			System.out.println("run time error " + e.getMessage());
+			System.out.println("run time error" + e.getMessage());
 			String[] empty = new String[1];
   			return empty;
 		}

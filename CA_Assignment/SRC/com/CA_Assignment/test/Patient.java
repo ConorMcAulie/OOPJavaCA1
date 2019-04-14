@@ -8,15 +8,19 @@ public class Patient {
 	private String[] Traits;
 	private int patSize = 4;
 	
-	public Patient()
+	public Patient(String[] patTraits)
 	{
 		FileAccess dataSet = new FileAccess();
-		
+		this.Traits = patTraits;
 	}
 
 	public void setTraits(String[] traits) 
 	{
-		this.Traits = traits;
+		for(i=0;i<(traits.length);i++) 
+		{
+			this.Traits[i] = traits[i];
+		}
+		i = 0;
 	}
 
 	public String toString() 

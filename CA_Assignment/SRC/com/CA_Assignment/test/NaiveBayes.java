@@ -9,8 +9,7 @@ public class NaiveBayes
 	private int i;
 	private String[] yesAndOption;
 	private String[] noAndOption;
-	private Patient patTemp;
-	private ArrayList<Patient> patList = new ArrayList<Patient>();
+	private ArrayList<String[]> patList = new ArrayList<String[]>();
 	
 	public NaiveBayes()
 	{
@@ -19,9 +18,14 @@ public class NaiveBayes
 		
 		for(i=0;i<dataSetAcc.getFileSize();i++) 
 		{
-			patTemp.setTraits(fileArr[i].split(","));
-			patList.add(patTemp);
+			String[] passing = fileArr[i].split(",");
+			Patient patTemp = new Patient(passing);
+			patList.add(passing);
 			System.out.println(patTemp);
 		}
+	}
+	public void getProbOfPat() 
+	{
+		 
 	}
 }
