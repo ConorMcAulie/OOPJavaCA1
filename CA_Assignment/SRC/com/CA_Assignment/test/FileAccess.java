@@ -1,26 +1,44 @@
+/****************************************
+ * Control GUI	: This class is the file connector to link
+ * 				: each class to a file if needed
+ * Author		: Conor McAuley
+ * Date Start 	: 06/04/2019
+ * Date	End		: 14/04/2019
+****************************************/
 package com.CA_Assignment.test;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class FileAccess 
 {
+	// All variables for the code
 	int fileSize;
 	int i;
+	// file pathname
 	String name = "CSV_Files\\TrainingData.csv";
 	File dataSet;
 	Scanner dataSetScanner;
 	PrintWriter fileApend;
 	ArrayList<String[]> dataSetArr = new ArrayList<String[]>();
 	
+	// instantiates file access
 	FileAccess()
 	{
 		dataSet = new File(name);
 	}
 	
+	// instantiates file access if it gets a name for a file
+	
+	/*				-UD-
+	Isn't used because it overwrites file
+	*/
 	FileAccess(String name)
 	{
 		dataSet = new File(this.name);
@@ -45,6 +63,7 @@ public class FileAccess
 		fileApend.close();
 	}
 	
+	// Reads the file into a string
 	public String[] readfile()
 	{
 		try 
@@ -67,6 +86,7 @@ public class FileAccess
 		return readFile;
 	}
 	
+	// gets the file size after previous function has been used
 	public int getFileSize() 
 	{
 		if(fileSize!=0)
@@ -79,27 +99,42 @@ public class FileAccess
 		}
 	}
 	
+	// Adds patient to data set
 	public void addPatientToData(Patient patTemp) 
 	{
 		String fileAdd = "";
 		try
     	{
-    		fileApend = new PrintWriter(dataSet);
+    		FileWriter fw = new FileWriter(dataSet);
+    	    BufferedWriter bw = new BufferedWriter(fw);
+    	    PrintWriter fileApend = new PrintWriter(bw);
     	}
   		catch (FileNotFoundException e)
   		{
   			System.out.println("run time error " + e.getMessage());
   			return;
-  		}
-		String[] fileAddArr = patTemp.getTraits();
+  		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String[] fileAddtoArr = patTemp.getTraits();
 		for(int i = 0; i < patTemp.getTraits().length; i++) 
 		{
-			fileAdd = fileAdd + "," + fileAddArr[i];
+			fileAdd = fileAdd + "," + fileAddtoArr[i];
 		}
+		
 		fileApend.println(fileAdd);
 		fileApend.close();
 	}
 	
+	// Resets the data set
+	
+	/*				-UD-
+	Isn't used because it empties file
+	*/
 	public void resetData()
 	{
 		dataSet = new File("CSV_Files\\OriginalData.csv");
