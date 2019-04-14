@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class FileAccess 
 {
 	int fileSize;
+	int i;
 	String name = "CSV_Files\\TrainingData.csv";
 	File dataSet;
 	Scanner dataSetScanner;
@@ -22,8 +23,26 @@ public class FileAccess
 	
 	FileAccess(String name)
 	{
-		this.name = name;
-		dataSet = new File(name);
+		dataSet = new File(this.name);
+		File newData = new File(name);
+		Scanner newDataScan;
+		
+		try
+	    {
+			newDataScan = new Scanner(newData);
+	    	fileApend = new PrintWriter(dataSet);
+	    	while(newDataScan.hasNextLine()) 
+			{
+				fileApend.println(newDataScan.nextLine());
+			}
+	    }
+	  	catch (FileNotFoundException e)
+	  	{
+	  		System.out.println("run time error " + e.getMessage());
+	  		return;
+	  	}
+		
+		fileApend.close();
 	}
 	
 	public String[] readfile()
@@ -47,6 +66,7 @@ public class FileAccess
 		}
 		return readFile;
 	}
+	
 	public int getFileSize() 
 	{
 		if(fileSize!=0)
@@ -61,7 +81,7 @@ public class FileAccess
 	
 	public void addPatientToData(Patient patTemp) 
 	{
-		int getPatSize = 2;
+		String fileAdd = "";
 		try
     	{
     		fileApend = new PrintWriter(dataSet);
@@ -71,17 +91,17 @@ public class FileAccess
   			System.out.println("run time error " + e.getMessage());
   			return;
   		}
-		for(int i = 0; i < getPatSize; i++) 
+		String[] fileAddArr = patTemp.getTraits();
+		for(int i = 0; i < patTemp.getTraits().length; i++) 
 		{
-			
+			fileAdd = fileAdd + "," + fileAddArr[i];
 		}
-		fileApend.println(patTemp);
+		fileApend.println(fileAdd);
 		fileApend.close();
 	}
 	
 	public void resetData()
 	{
-		File trainingData = new File("TrainingData.csv");
-		dataSet = trainingData;
+		dataSet = new File("CSV_Files\\OriginalData.csv");
 	}
 }

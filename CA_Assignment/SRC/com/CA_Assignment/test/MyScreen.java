@@ -28,6 +28,7 @@ public class MyScreen extends JFrame implements ActionListener
 	int result = 0;
 	String[] choices = { "hot", "normal", "cool"};
 	String[] choices2 = { "yes", "no"};
+	NaiveBayes test = new NaiveBayes();
 	
 	private JButton buttonCheckP;
 	private JButton buttonFileChooserP;
@@ -104,16 +105,9 @@ public class MyScreen extends JFrame implements ActionListener
 			options[1] = (String) trait2.getSelectedItem();
 			options[2] = (String) trait3.getSelectedItem();
 			
-			NaiveBayes test = new NaiveBayes();
-			String answer[] = test.getProbOfPat(options);
-			
-			String ansOne = "";
-			for(i=0;i<answer.length;i++) 
-			{
-				ansOne = ansOne + " | " + answer[i] + " | ";
-			}
+			float answerYes = test.getProbOfPat(options);
 				
-			JOptionPane.showMessageDialog(this, "Probability = " + ansOne);
+			JOptionPane.showMessageDialog(this, " Probability of Having Tonsilitis = " + answerYes + " %");
 		}
 		else if(arg0.getSource() == buttonFileChooserP)
 		{
@@ -126,7 +120,7 @@ public class MyScreen extends JFrame implements ActionListener
             if (r == JFileChooser.APPROVE_OPTION) 
             { 
             	System.out.println(j.getSelectedFile().getAbsolutePath());
-            	
+            	FileAccess appendedFile = new FileAccess(j.getSelectedFile().getAbsolutePath());
             } 
             else 
             {
@@ -136,6 +130,10 @@ public class MyScreen extends JFrame implements ActionListener
 		else if(arg0.getSource() == buttonResetP)
 		{
 			result = JOptionPane.showConfirmDialog(this, "Do you wish to delete array list?","Delete Dialog", 1);
+			if(result == 1) 
+			{
+				test.dataSetAcc.resetData();
+			}
 		}
 		else if(arg0.getSource() == buttonCheckRel)
 		{

@@ -6,12 +6,17 @@ import java.util.Arrays;
 public class Patient {
 	private int i = 0;
 	private String[] Traits;
-	private int patSize = 4;
-	
+	FileAccess dataSet;
+	// private patSize = 4;
+
 	public Patient(String[] patTraits)
 	{
 		FileAccess dataSet = new FileAccess();
 		this.Traits = patTraits;
+	}
+
+	public String[] getTraits() {
+		return Traits;
 	}
 
 	public void setTraits(String[] traits) 
@@ -33,5 +38,10 @@ public class Patient {
 			i++;
 		}
 		return toReturn;
+	}
+	
+	public void setDataSet(FileAccess dataSet) 
+	{
+		this.dataSet = dataSet;
 	}
 }
