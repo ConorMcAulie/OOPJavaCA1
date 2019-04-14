@@ -2,6 +2,7 @@ package com.CA_Assignment.test;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @SuppressWarnings("unused")
 public class NaiveBayes 
@@ -11,7 +12,6 @@ public class NaiveBayes
 	private float totalYes;
 	private float[] noAndOption;
 	private float totalNo;
-	
 	private ArrayList<String[]> patList = new ArrayList<String[]>();
 	FileAccess dataSetAcc = new FileAccess();
 	int forCheck = 0;
@@ -35,12 +35,15 @@ public class NaiveBayes
 		}
 	}
 	
-	public ArrayList<float[]> Algorithm(String[] options) 
+	public float Algorithm(String[] options) 
 	{
 		int probYes = 0;
 		int probNo = 0;
 		int tonYes = 0;
 		int tonNo = 0;
+		totalYes = 1;
+		totalNo = 1;
+		
 		String[] retString = new String[options.length];
 		yesAndOption = new float[options.length];
 		noAndOption = new float[options.length];
@@ -57,7 +60,7 @@ public class NaiveBayes
 				String[] inLoop = patList.get(j);
 				if(inLoop[inLoop.length - 1].equals("yes"))
 				{
-					if(options[i].equals(inLoop[i+1]))
+					if(inLoop[i+1].equals(options[i]))
 					{
 						probYes++;
 					}
@@ -65,56 +68,26 @@ public class NaiveBayes
 				}
 				else if(inLoop[inLoop.length - 1].equals("no"))
 				{
-					if(options[i].equals(inLoop[i+1]))
+					if(inLoop[i+1].equals(options[i]))
 					{
 						probNo++;
 					}
 					tonNo++;
 				}
-				System.out.println(probYes + "/" + tonYes + ","
-				+ probNo + "/" + tonNo);
 			}
 			retString[i] = probYes + "/" + tonYes + ","
 					+ probNo + "/" + tonNo;
 			
-			yesAndOption[i] = probYes / tonYes;
-			noAndOption[i] = probNo / tonNo;
+			totalYes = totalYes * probYes/tonYes;
+			totalNo = totalNo * probNo/tonNo;
 		}
 		
-		float[] totalYesAndNo = new float[3];
-		totalYesAndNo[0] = (float)tonYes;
-		totalYesAndNo[1] = (float)tonNo;
-		
-		ArrayList<float[]> yesAndNoOptions = new ArrayList<float[]>();
-		
-		yesAndNoOptions.add(yesAndOption);
-		yesAndNoOptions.add(noAndOption);
-		yesAndNoOptions.add(totalYesAndNo);
-		
-		return yesAndNoOptions;
-	}
-	
-	public float getProbOfPat(String[] options) 
-	{
-		ArrayList<float[]> transfer = Algorithm(options);
-		yesAndOption = transfer.get(0);
-		noAndOption = transfer.get(1);
-		float[] totalYesAndNo = transfer.get(2);
-		float tonYes = totalYesAndNo[0];
-		float tonNo = totalYesAndNo[1];
-		
-		float tonAll = (int) (tonNo + tonYes);
-		
-		for(i = 0; i < options.length; i++)
-		{
-			totalYes = totalYes * yesAndOption[i];
-			totalNo = totalNo * noAndOption[i];
-		}
+		int tonAll = tonNo + tonYes;
 		
 		totalYes = ( totalYes * tonYes ) / tonAll;
 		totalNo = ( totalNo * tonNo ) / tonAll;
 		
-		totalYes = totalYes * (float)100 /( totalYes + totalNo );
+		totalYes = totalYes * 100/( totalYes + totalNo );
 		
 		return totalYes;
 	}
@@ -123,23 +96,21 @@ public class NaiveBayes
 	{
 		int relTop = 0;
 		int relBot = 0;
-		
-		this.forCheck = (int) (this.patList.size() * 0.3);
-		this.setPatList();
-		
-		for(i=0;i<forCheck;forCheck--) 
+		float checkIt = 0;
+		ArrayList<String[]> testList = new ArrayList<String[]>();
+		this.forCheck = (int)(patList.size() * 0.3);
+		System.out.println(forCheck);
+		for(i=0;i<forCheck;i++) 
 		{
-			String[] optionsPlus1 = patList.get(this.patList.size()-forCheck);
-			String[] options = new String[(optionsPlus1.length-1)];
+			String[] options = this.patList.get(patList.size()-forCheck+i);
+			String[] optClean = Arrays.copyOfRange(options, 1, 4);
+			System.out.println(optClean[0]);
+			System.out.println(optClean[1]);
+			System.out.println(optClean[2]);
+			checkIt = Algorithm(optClean);
 			
-			for(int j=0; j<(optionsPlus1.length-1); j++) 
-			{
-				options[j] = optionsPlus1[j];
-			}
-			float checkIt = getProbOfPat(options);
-			
-			if(((checkIt > 50) && (optionsPlus1[optionsPlus1.length-1] == "yes")) ||
-					((checkIt < 50) && (optionsPlus1[optionsPlus1.length-1] == "no")))
+			if(((checkIt > 50) && (options[options.length-1] == "yes")) ||
+					((checkIt < 50) && (options[options.length-1] == "no")))
 			{
 				relTop++;
 			}
@@ -147,6 +118,7 @@ public class NaiveBayes
 		}
 		
 		float totalRel = (float)(relTop/relBot);
+		System.out.println(totalRel);
 		return totalRel;
 	}
 }

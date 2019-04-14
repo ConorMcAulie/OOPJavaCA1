@@ -32,7 +32,7 @@ public class MyScreen extends JFrame implements ActionListener
 	NaiveBayes test = new NaiveBayes();
 	
 	private JButton buttonCheckP;
-	private JButton buttonFileChooserP;
+	private JButton buttonAddP;
 	private JButton buttonResetP;
 	private JButton buttonCheckRel;
 	private JLabel labelTitle;
@@ -42,7 +42,6 @@ public class MyScreen extends JFrame implements ActionListener
 	private JComboBox<String> trait1 = new JComboBox<String>();
 	private JComboBox<String> trait2 = new JComboBox<String>();
 	private JComboBox<String> trait3 = new JComboBox<String>();
-	private JFileChooser fileAdd;
 	
 	public MyScreen() 
 	{
@@ -66,7 +65,7 @@ public class MyScreen extends JFrame implements ActionListener
 		trait3 = new JComboBox<String>(choices2);
 		
 		buttonCheckP = new JButton("Submit Symptoms");
-		buttonFileChooserP = new JButton("Add file of patients");
+		buttonAddP = new JButton("Add instance of patient");
 		buttonResetP = new JButton("Reset Data Training Set");
 		buttonCheckRel = new JButton("Check Reliability");
 		
@@ -82,16 +81,14 @@ public class MyScreen extends JFrame implements ActionListener
 		add(PanelM, BorderLayout.CENTER);
 		
 		PanelB.add(buttonCheckP);
-		PanelB.add(buttonFileChooserP);
+		PanelB.add(buttonAddP);
 		PanelB.add(buttonResetP);
 		PanelB.add(buttonCheckRel);
 		add(PanelB, BorderLayout.SOUTH);
 
-		fileAdd = new JFileChooser();
-
 		buttonCheckP.addActionListener(this);
 		buttonResetP.addActionListener(this);
-		buttonFileChooserP.addActionListener(this);
+		buttonAddP.addActionListener(this);
 		buttonCheckRel.addActionListener(this);
 		
 		setVisible(true);
@@ -106,27 +103,26 @@ public class MyScreen extends JFrame implements ActionListener
 			options[1] = (String) trait2.getSelectedItem();
 			options[2] = (String) trait3.getSelectedItem();
 			
-			float answerYes = test.getProbOfPat(options);
+			float answerYes = test.Algorithm(options);
+			System.out.println(answerYes);
 				
 			JOptionPane.showMessageDialog(this, " Probability of Having Tonsilitis = " + answerYes + " %");
 		}
-		else if(arg0.getSource() == buttonFileChooserP)
+		else if(arg0.getSource() == buttonAddP)
 		{
-            JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); 
-            int r = j.showOpenDialog(null); 
-
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files", ".csv");
-            fileAdd.setFileFilter(filter);
-            
-            if (r == JFileChooser.APPROVE_OPTION) 
-            { 
-            	System.out.println(j.getSelectedFile().getAbsolutePath());
-            	FileAccess appendedFile = new FileAccess(j.getSelectedFile().getAbsolutePath());
-            } 
-            else 
-            {
-            	System.out.println("the user cancelled the operation"); 
-            }
+			String[] options = new String[4];
+			options[1] = (String) trait1.getSelectedItem();
+			options[2] = (String) trait2.getSelectedItem();
+			options[3] = (String) trait3.getSelectedItem();
+			float answerYes = test.Algorithm(options);
+			if(answerYes >= 50)
+			{
+				options[4] = "Yes";
+			}
+			else
+			{
+				options[4] = "No";
+			}
 		}
 		else if(arg0.getSource() == buttonResetP)
 		{
